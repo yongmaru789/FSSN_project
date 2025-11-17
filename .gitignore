@@ -1,0 +1,19 @@
+# Visual Studio
+.vs/
+*.vcxproj.user
+
+# Build directories
+x64/
+Debug/
+Release/
+bin/
+obj/
+
+# Build results
+*.obj
+*.pdb
+*.exe
+*.ilk
+*.ipch
+*.tlog
+*.log
