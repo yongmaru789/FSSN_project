@@ -7,17 +7,17 @@ using namespace std;
 
 class ClientTask {
 public:
-	ClientTask(const string& id) : id(id) {}
-
+	ClientTask(const string& id) : id(id), context(1), socket(context, zmq::socket_type::dealer) {}
+	
 	void run() {
-		zmq::context_t context(1);
-		zmq::socket_t socket(context, zmq::socket_type::dealer);
-
-		string identity = string("client-") + id;
+		identity = string("client-") + id;
 		socket.set(zmq::sockopt::routing_id, identity);
 		socket.connect("tcp://localhost:5570");
 
 		cout << "Client " << identity << " started" << endl;
+
+		thread recv_thread(&ClientTask::recvHandler, this);
+		recv_thread.detach();
 
 		int reqs = 0;
 
@@ -29,10 +29,15 @@ public:
 			socket.send(zmq::buffer(request), zmq::send_flags::none);
 
 			this_thread::sleep_for(chrono::seconds(1));
-
+		}
+	}
+private:
+	void recvHandler() {
+		while (true) {
 			zmq::pollitem_t items[] = {
-				{ static_cast<void*>(socket.handle()), 0, ZMQ_POLLIN, 0 }
+				{static_cast<void*>(socket.handle()), 0, ZMQ_POLLIN, 0}
 			};
+
 			zmq::poll(items, 1, chrono::milliseconds(1000));
 
 			if (items[0].revents & ZMQ_POLLIN) {
@@ -45,6 +50,9 @@ public:
 	}
 private:
 	string id;
+	zmq::context_t context;
+	zmq::socket_t socket;
+	string identity;
 };
 
 int main(int argc, char* argv[]) {

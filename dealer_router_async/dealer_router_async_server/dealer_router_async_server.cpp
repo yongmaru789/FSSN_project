@@ -69,12 +69,14 @@ private:
 };
 
 int main(int argc, char* argv[]) {
-	if (argc != 2) {
-		cout << "usage: " << argv[0] << "n_workers" << endl;
-		return 0;
-	}
+	int num_server = 1;
 
-	int num_server = atoi(argv[1]);
+	if (argc >= 2) {
+		int parsed = atoi(argv[1]);
+		if (parsed > 0) {
+			num_server = parsed;
+		}
+	}
 
 	ServerTask server(num_server);
 	server.run();
