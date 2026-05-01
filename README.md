@@ -1,5 +1,6 @@
-# ZeroMQ Python - C++ Porting Project
-ZeroMQ의 주요 통신 패턴을 이해하고, Python 코드로 작성된 예제를 C++ 환경으로 1:1 대응 포팅하여 소켓 동작 방식과 메시지 흐름을 분석하는 프로젝트.  
+# ZeroMQ C++ Porting Project
+ZeroMQ의 주요 통신 패턴을 이해하고, Python 코드로 작성된 예제를 C++ 환경으로 1:1 대응 포팅하여 소켓 동작 방식과 메시지 흐름을 분석하는 프로젝트.   
+풀스택서비스네트워킹(FSSN) 과목 프로젝트    
 각 패턴의 연결 설정, 데이터 교환, 연결 해제 흐름을 중심으로 구현되었습니다.
 
 ## Implemented Patterns
